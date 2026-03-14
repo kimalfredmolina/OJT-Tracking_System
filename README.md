@@ -2,7 +2,15 @@
 
 ## Installation
 
-Tailwind CSS Documentation
+### Firebase 
+```
+npm firebase
+```
+```
+npm install -g firebase-tools
+```
+
+### Tailwind CSS Documentation
 https://tailwindcss.com/docs/guides/vite
 
 ```
