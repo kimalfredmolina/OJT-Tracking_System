@@ -7,6 +7,7 @@ import CalendarView  from '../components/CalendarView'
 import WeeklySummary from '../components/WeeklySummary'
 import AddLogModal   from '../components/AddLogModal'
 import BulkAddModal  from '../components/BulkAddModal'
+import SetupOjtModal from '../components/SetupOjtModal'
 
 const REQUIRED_HOURS = 500
 
@@ -59,6 +60,18 @@ const STAT_CARDS = [
 const HomePage = ({ isDark, toggleTheme }) => {
   const [modalOpen, setModalOpen] = useState(false)
   const [bulkModalOpen, setBulkModalOpen] = useState(false)
+  
+  const [needsSetup, setNeedsSetup] = useState(() => {
+    if (typeof window !== 'undefined' && localStorage.getItem('needsSetup') === 'true') {
+      return true
+    }
+    return false
+  })
+
+  const handleSetupComplete = () => {
+    setNeedsSetup(false)
+    localStorage.removeItem('needsSetup')
+  }
 
   const handleSaveLog = (logData) => {
     console.log('New log saved:', logData)
@@ -105,6 +118,11 @@ const HomePage = ({ isDark, toggleTheme }) => {
         onSave={(entries) => {
           console.log('Bulk entries:', entries)
         }}
+      />
+
+      <SetupOjtModal
+        isOpen={needsSetup}
+        onClose={handleSetupComplete}
       />
     </div>
   )
