@@ -9,12 +9,13 @@
   --surface:      #ffffff;
   --surface-alt:  #f5f4f1;
   --border:       rgba(0, 0, 0, 0.07);
-  --border-hover: rgba(200, 184, 154, 0.45);
+  --border-hover: rgba(200, 184, 154, 0.55);
   --text:         #1a1a1e;
   --muted:        #717184;
-  --accent:       #c8b89a;
-  --accent-dim:   #a89070;
-  --accent-bg:    rgba(200, 184, 154, 0.10);
+  /* Slightly deeper, higher-contrast gold for light mode */
+  --accent:       #b4893a;
+  --accent-dim:   #8b6a2b;
+  --accent-bg:    rgba(180, 137, 58, 0.14);
   --danger:       #ef4444;
   --danger-bg:    rgba(239, 68, 68, 0.05);
   --input-bg:     #f0efe9;

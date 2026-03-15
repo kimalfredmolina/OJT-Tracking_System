@@ -6,6 +6,7 @@ import ActivityTable from '../components/ActivityTable'
 import CalendarView  from '../components/CalendarView'
 import WeeklySummary from '../components/WeeklySummary'
 import AddLogModal   from '../components/AddLogModal'
+import BulkAddModal  from '../components/BulkAddModal'
 
 const REQUIRED_HOURS = 500
 
@@ -57,6 +58,7 @@ const STAT_CARDS = [
 
 const HomePage = ({ isDark, toggleTheme }) => {
   const [modalOpen, setModalOpen] = useState(false)
+  const [bulkModalOpen, setBulkModalOpen] = useState(false)
 
   const handleSaveLog = (logData) => {
     console.log('New log saved:', logData)
@@ -77,13 +79,33 @@ const HomePage = ({ isDark, toggleTheme }) => {
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6">
 
-          <div className="space-y-6"><ActivityTable logs={SAMPLE_LOGS} /> <CalendarView  loggedDays={loggedDays} /></div>
+          <div className="space-y-6">
+            <ActivityTable
+              logs={SAMPLE_LOGS}
+              onAddLog={() => setModalOpen(true)}
+              onBulkAdd={() => setBulkModalOpen(true)}
+            />
+            <CalendarView  loggedDays={loggedDays} />
+          </div>
 
           <WeeklySummary weeks={SAMPLE_WEEKS} />
         </div>
       </main>
 
-      <AddLogModal isOpen={modalOpen} onClose={() => setModalOpen(false)} onSave={handleSaveLog} isDark={isDark} />
+      <AddLogModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onSave={handleSaveLog}
+        isDark={isDark}
+      />
+
+      <BulkAddModal
+        isOpen={bulkModalOpen}
+        onClose={() => setBulkModalOpen(false)}
+        onSave={(entries) => {
+          console.log('Bulk entries:', entries)
+        }}
+      />
     </div>
   )
 }
