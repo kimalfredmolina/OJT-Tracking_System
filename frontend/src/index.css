@@ -1,3 +1,102 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/*  THEME TOKENS — light (default) & dark */
+:root {
+  --bg:           #f5f4f1;
+  --bg-80:        rgba(245, 244, 241, 0.80);
+  --surface:      #ffffff;
+  --surface-alt:  #f5f4f1;
+  --border:       rgba(0, 0, 0, 0.07);
+  --border-hover: rgba(200, 184, 154, 0.45);
+  --text:         #1a1a1e;
+  --muted:        #717184;
+  --accent:       #c8b89a;
+  --accent-dim:   #a89070;
+  --accent-bg:    rgba(200, 184, 154, 0.10);
+  --danger:       #ef4444;
+  --danger-bg:    rgba(239, 68, 68, 0.05);
+  --input-bg:     #f0efe9;
+  --shadow-card:  0 8px 32px rgba(0,0,0,0.08);
+  --shadow-modal: 0 32px 80px rgba(0,0,0,0.15);
+}
+
+html.dark {
+  --bg:           #0d0d0f;
+  --bg-80:        rgba(13, 13, 15, 0.80);
+  --surface:      #16161a;
+  --surface-alt:  #0d0d0f;
+  --border:       rgba(255, 255, 255, 0.07);
+  --border-hover: rgba(200, 184, 154, 0.40);
+  --text:         #f0ede8;
+  --muted:        #7a7a8a;
+  --accent:       #c8b89a;
+  --accent-dim:   #a89070;
+  --accent-bg:    rgba(200, 184, 154, 0.08);
+  --danger:       #f87171;
+  --danger-bg:    rgba(239, 68, 68, 0.05);
+  --input-bg:     #0d0d0f;
+  --shadow-card:  0 8px 32px rgba(0,0,0,0.30);
+  --shadow-modal: 0 32px 80px rgba(0,0,0,0.60);
+}
+
+.theme-bg         { background-color: var(--bg); }
+.theme-bg-80      { background-color: var(--bg-80); }
+.theme-surface    { background-color: var(--surface); }
+.theme-surface-alt{ background-color: var(--surface-alt); }
+.theme-text       { color: var(--text); }
+.theme-muted      { color: var(--muted); }
+.theme-border     { border-color: var(--border); }
+.theme-input-bg   { background-color: var(--input-bg); }
+
+.theme-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.theme-card:hover {
+  box-shadow: var(--shadow-card);
+}
+
+.theme-divider { border-color: var(--border); }
+
+.theme-input {
+  background-color: var(--input-bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  transition: border-color 0.2s;
+}
+.theme-input:focus {
+  outline: none;
+  border-color: rgba(200, 184, 154, 0.55);
+}
+.theme-input::placeholder { color: var(--muted); opacity: 0.6; }
+
+@property --border-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes border-rotate {
+  to { --border-angle: 360deg; }
+}
+
+.animated-border-card {
+  background: conic-gradient(
+    from var(--border-angle),
+    rgba(200, 184, 154, 0.15) 0%,
+    #c8b89a 30%,
+    rgba(200, 184, 154, 0.15) 60%
+  );
+  animation: border-rotate 3s linear infinite;
+  border-radius: 1rem;
+  padding: 1px;
+}
+
+.animated-border-card-inner {
+  border-radius: calc(1rem - 1px);
+  width: 100%;
+  height: 100%;
+}
