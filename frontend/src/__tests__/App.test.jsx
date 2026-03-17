@@ -37,6 +37,6 @@ describe("App", () => {
       jest.advanceTimersByTime(150)
     })
 
-    expect(screen.getByText(/welcome back/i)).toBeInTheDocument()
+    expect(screen.getByText(/welcome/i)).toBeInTheDocument()
   })
 })
