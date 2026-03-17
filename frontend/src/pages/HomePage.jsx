@@ -412,7 +412,7 @@ const HomePage = ({ isDark, toggleTheme }) => {
           style={{ color: 'var(--muted)', borderTop: '1px solid var(--border)' }}
         >
           <a
-            href="https://github.com/kimalfredmolina/OJT-Tracking_System"
+            href="https://github.com/kimalfredmolina"
             target="_blank"
             rel="noreferrer"
             className="py-4 hover:underline"
