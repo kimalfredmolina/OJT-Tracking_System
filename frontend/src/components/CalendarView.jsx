@@ -13,7 +13,7 @@ const parseDateKey = (value) => {
   return Number.isNaN(d.getTime()) ? null : d
 }
 
-const CalendarView = ({ logs = [] }) => {
+const CalendarView = ({ logs = [], onSelectDate }) => {
   const today       = new Date()
   const [calYear, setCalYear] = useState(today.getFullYear())
   const [calMonth, setCalMonth] = useState(today.getMonth())
@@ -115,15 +115,53 @@ const CalendarView = ({ logs = [] }) => {
             const day      = i + 1
             const isToday  = day === today.getDate() && calMonth === today.getMonth() && calYear === today.getFullYear()
             const isLogged = loggedDays.has(day)
+            const dateKey  = `${calYear}-${String(calMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
+
+            const handleSelect = () => onSelectDate?.(dateKey)
+            const handleKey = (e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                handleSelect()
+              }
+            }
 
             if (isToday) return (
-              <div key={day} style={{ ...baseStyle, background: 'linear-gradient(135deg, #c8b89a, #a89070)', color: '#0d0d0f' }}>{day}</div>
+              <div
+                key={day}
+                role="button"
+                tabIndex={0}
+                onClick={handleSelect}
+                onKeyDown={handleKey}
+                style={{ ...baseStyle, background: 'linear-gradient(135deg, #c8b89a, #a89070)', color: '#0d0d0f' }}
+              >
+                {day}
+              </div>
             )
             if (isLogged) return (
-              <div key={day} style={{ ...baseStyle, color: 'var(--accent)', backgroundColor: 'var(--accent-bg)', border: '1px solid rgba(200,184,154,0.25)' }}>{day}</div>
+              <div
+                key={day}
+                role="button"
+                tabIndex={0}
+                onClick={handleSelect}
+                onKeyDown={handleKey}
+                style={{ ...baseStyle, color: 'var(--accent)', backgroundColor: 'var(--accent-bg)', border: '1px solid rgba(200,184,154,0.25)' }}
+              >
+                {day}
+              </div>
             )
             return (
-              <div key={day} style={{ ...baseStyle, color: 'var(--muted)' }} onMouseEnter={e => { e.currentTarget.style.color = 'var(--text)'; e.currentTarget.style.backgroundColor = 'rgba(128,128,128,0.07)' }} onMouseLeave={e => { e.currentTarget.style.color = 'var(--muted)'; e.currentTarget.style.backgroundColor = 'transparent' }}>{day}</div>
+              <div
+                key={day}
+                role="button"
+                tabIndex={0}
+                onClick={handleSelect}
+                onKeyDown={handleKey}
+                style={{ ...baseStyle, color: 'var(--muted)' }}
+                onMouseEnter={e => { e.currentTarget.style.color = 'var(--text)'; e.currentTarget.style.backgroundColor = 'rgba(128,128,128,0.07)' }}
+                onMouseLeave={e => { e.currentTarget.style.color = 'var(--muted)'; e.currentTarget.style.backgroundColor = 'transparent' }}
+              >
+                {day}
+              </div>
             )
           })}
         </div>

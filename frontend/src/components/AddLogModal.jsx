@@ -31,8 +31,9 @@ const limitWords = (value, maxWords) => {
  * @prop {function} onClose
  * @prop {function} onSave   – called with the saved log data after DB write
  * @prop {boolean}  isDark
+ * @prop {string}   initialDate
  */
-const AddLogModal = ({ isOpen, onClose, onSave, isDark, initialLog = null }) => {
+const AddLogModal = ({ isOpen, onClose, onSave, isDark, initialLog = null, initialDate = '' }) => {
   const todayStr = useMemo(() => new Date().toISOString().slice(0, 10), [])
   const isEdit = Boolean(initialLog && initialLog.id)
 
@@ -58,13 +59,13 @@ const AddLogModal = ({ isOpen, onClose, onSave, isDark, initialLog = null }) => 
       setError('')
       return
     }
-    setLogDate(todayStr)
+    setLogDate(initialDate || todayStr)
     setTimeIn({ h: 9, m: 30, p: 'AM' })
     setTimeOut({ h: 6, m: 30, p: 'PM' })
     setBreakHr(1)
     setNotes('')
     setError('')
-  }, [isOpen, isEdit, initialLog, todayStr])
+  }, [isOpen, isEdit, initialLog, todayStr, initialDate])
 
   const handleSave = async () => {
     if (rawHours <= 0) {

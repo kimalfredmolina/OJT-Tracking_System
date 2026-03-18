@@ -12,6 +12,7 @@ import SetupOjtModal from '../components/SetupOjtModal'
 import DeleteConfirmModal from '../components/DeleteConfirmModal'
 import ToastStack from '../components/ToastStack'
 import NoteViewModal from '../components/NoteViewModal'
+import CalendarLogModal from '../components/CalendarLogModal'
 import AccountPage from './AccountPage'
 import {
   onAuthChange,
@@ -111,6 +112,8 @@ const HomePage = ({ isDark, toggleTheme }) => {
   const [activeView, setActiveView] = useState('dashboard')
   const [deleteAccountOpen, setDeleteAccountOpen] = useState(false)
   const [noteViewLog, setNoteViewLog] = useState(null)
+  const [calendarSelection, setCalendarSelection] = useState(null)
+  const [prefillDate, setPrefillDate] = useState('')
 
   useEffect(() => {
     const unsub = onAuthChange(u => {
@@ -242,11 +245,19 @@ const HomePage = ({ isDark, toggleTheme }) => {
   }
 
   const openAddLog = () => {
+    setPrefillDate('')
+    setEditingLog(null)
+    setModalOpen(true)
+  }
+
+  const openAddLogForDate = (dateStr) => {
+    setPrefillDate(dateStr)
     setEditingLog(null)
     setModalOpen(true)
   }
 
   const openEditLog = (log) => {
+    setPrefillDate('')
     setEditingLog(log)
     setModalOpen(true)
   }
@@ -254,6 +265,7 @@ const HomePage = ({ isDark, toggleTheme }) => {
   const closeLogModal = () => {
     setModalOpen(false)
     setEditingLog(null)
+    setPrefillDate('')
   }
 
   const handleDeleteLog = async (log) => {
@@ -303,6 +315,20 @@ const HomePage = ({ isDark, toggleTheme }) => {
   }
 
   const isAccountView = activeView === 'account'
+
+  const handleCalendarSelect = (dateStr) => {
+    if (!isValidDateKey(dateStr)) return
+    const matches = logs.filter(l => l.date === dateStr)
+    if (!matches.length) {
+      openAddLogForDate(dateStr)
+      return
+    }
+    setCalendarSelection({
+      date: dateStr,
+      dateLabel: fmtDate(dateStr),
+      logs: matches,
+    })
+  }
 
   return (
     <div
@@ -401,7 +427,7 @@ const HomePage = ({ isDark, toggleTheme }) => {
                   onEditLog={openEditLog}
                   onDeleteLog={handleDeleteLog}
                 />
-                <CalendarView logs={logs} />
+                <CalendarView logs={logs} onSelectDate={handleCalendarSelect} />
               </div>
               <WeeklySummary weeks={weeklySummaries} />
             </div>
@@ -434,6 +460,7 @@ const HomePage = ({ isDark, toggleTheme }) => {
         onClose={closeLogModal}
         isDark={isDark}
         initialLog={editingLog}
+        initialDate={prefillDate}
         onSave={(log, mode) => {
           if (mode === 'edit') pushToast('Edit successfully.')
           if (mode === 'add') pushToast('Added successfully.')
@@ -473,6 +500,22 @@ const HomePage = ({ isDark, toggleTheme }) => {
         isOpen={Boolean(noteViewLog)}
         onClose={() => setNoteViewLog(null)}
         log={noteViewLog}
+      />
+
+      <CalendarLogModal
+        isOpen={Boolean(calendarSelection)}
+        onClose={() => setCalendarSelection(null)}
+        dateLabel={calendarSelection?.dateLabel}
+        logs={calendarSelection?.logs || []}
+        onEdit={(log) => {
+          setCalendarSelection(null)
+          openEditLog(log)
+        }}
+        onAdd={() => {
+          const d = calendarSelection?.date || ''
+          setCalendarSelection(null)
+          if (d) openAddLogForDate(d)
+        }}
       />
 
       <ToastStack toasts={toasts} onDismiss={dismissToast} />
