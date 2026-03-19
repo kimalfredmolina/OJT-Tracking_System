@@ -1,4 +1,7 @@
 # OJT Tracking System
+OJT Tracking System is a web-based application designed to help students manage and monitor their On-the-Job Training activities. It allows users to log daily attendance, record working hours, track tasks, and organize progress efficiently. The system provides an easy-to-use interface for students to ensure accurate documentation and better training management.
+
+<img width="1919" height="942" alt="image" src="https://github.com/user-attachments/assets/f6ac744b-e287-4151-9511-07710f29eafa" />
 
 ## Installation
 
